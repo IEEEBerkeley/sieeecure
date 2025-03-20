@@ -11,7 +11,7 @@
 - XTS \[5\]
 	- requires two keys,
 	- typically used for disk encryption
-	- somewhere between CTR and GCM in terms of difficulty of implementing
+	- somewhere between ECB/CBC and GCM in terms of difficulty of implementing
 - CTR, OFB, CFB
 	- stream ciphers so probably no need to consider
 ### C RegFile
