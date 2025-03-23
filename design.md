@@ -31,6 +31,6 @@ Considerations:
 ## Useful Repos and Links
 1. [TRNG for salt generation in Verilog](https://github.com/secworks/trng)  
 2. [Mersenne Twister (PRNG)](https://github.com/alexforencich/verilog-mersenne)  
-3. [Tiny AES](https://github.com/kokke/tiny-AES-c) or [General Embedded Cryptography Library (used in paper)](https://github.com/intel/tinycrypt)  
+3. **[Tiny AES](https://github.com/kokke/tiny-AES-c)** or [General Embedded Cryptography Library (used in paper)](https://github.com/intel/tinycrypt)  
 4. [AES in Verilog](https://medium.com/@imgouravsaini/aes-algorithm-and-its-hardware-implementation-on-fpga-a-step-by-step-guide-2bef178db736) + [Some GitHub Repo](https://github.com/michaelehab/AES-Verilog)  
 5. [AES XTS in Verilog](https://github.com/pradyuman/aes-encryption-engine)  
