@@ -1,6 +1,6 @@
 ## Design
 ### AES Mode
-- ECB/CBC \[4\]
+- **ECB/CBC** \[4\]
 	- considered insecure for actual use
 	- easiest to implement
 - GCM
@@ -14,16 +14,19 @@
 	- somewhere between ECB/CBC and GCM in terms of difficulty of implementing
 - CTR, OFB, CFB
 	- stream ciphers so probably no need to consider
+
 ### C RegFile
 small AES open-source implementation in \[3\] — which one?
+
 ### Salt
-Unoptimized: TRNG \[1\]
+Unoptimized: TRNG \[1\]  
 Optimized: PRNG seeded (and periodically reseeded) with TRNG \[2\] (must reseed at least every 624 PRNG generations)
 
 Paper: "We use a Mersenne Twister pseudorandom number generator (PRNG) to generate cryptographic salts, re-seeded with a true random source every 200 uses. We used existing open-source encryption libraries within our simulation and parameterized gem5 with the above latencies."
 
 Considerations:
 - Verilog or C++? (paper uses C++ libraries for simulation)
+
 
 ## Useful Repos and Links
 1. [TRNG for salt generation in Verilog](https://github.com/secworks/trng)  
