@@ -3,14 +3,54 @@
 #include <string.h>
 #include "aes.h"
 
+#define REG_NUM 32
+
 static void phex(uint8_t* str);
-static int test_encrypt_ecb(void);
-static int test_decrypt_ecb(void);
+static void encrypt_ecb(uint8_t* key, uint8_t* pt);
+static void decrypt_ecb(uint8_t* key, uint8_t* ct);
 
 int main() {
-    return test_encrypt_ecb() + test_decrypt_ecb();
+    FILE* fp = fopen("regs", "r");
+    uint8_t key[AES_BLOCKLEN+1];
+    uint8_t regs[REG_NUM][AES_BLOCKLEN+1];
+    size_t num_read;
+
+    if (fp == NULL) {
+        printf("Error opening file\n");
+        return 1;
+    }
+
+    num_read = fread((char*) key, 1, AES_BLOCKLEN, fp);
+    key[AES_BLOCKLEN] = '\0';
+    if (num_read != AES_BLOCKLEN) {
+        printf("Key must be 16 bytes\n");
+        return 1;
+    }
+
+    for (int i = 0 ; i < REG_NUM ; i++) {
+        num_read = fread((char*) regs[i], 1, AES_BLOCKLEN, fp);
+        regs[i][AES_BLOCKLEN] = '\0';
+        if (num_read != AES_BLOCKLEN) {
+            printf("Reg must be 16 bytes\n");
+            return 1;
+        }
+    }
+
+    if (fclose(fp) == EOF) {
+        printf("Error closing file\n");
+        return 1;
+    }
+
+    for (int i = 0 ; i < REG_NUM ; i++) {
+        printf("%d: ", i);
+        decrypt_ecb(key, regs[i]);
+        phex(regs[i]);
+    }
+
+    return 0;
 }
 
+// print bytes as hex
 static void phex(uint8_t* str)
 {
     uint8_t len = 16;
@@ -21,44 +61,18 @@ static void phex(uint8_t* str)
     printf("\n");
 }
 
-static int test_encrypt_ecb(void)
+static void encrypt_ecb(uint8_t* key, uint8_t* pt)
 {
-    uint8_t key[] = { 0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c };
-    uint8_t out[] = { 0x3a, 0xd7, 0x7b, 0xb4, 0x0d, 0x7a, 0x36, 0x60, 0xa8, 0x9e, 0xca, 0xf3, 0x24, 0x66, 0xef, 0x97 };
-    uint8_t in[]  = { 0x6b, 0xc1, 0xbe, 0xe2, 0x2e, 0x40, 0x9f, 0x96, 0xe9, 0x3d, 0x7e, 0x11, 0x73, 0x93, 0x17, 0x2a };
     struct AES_ctx ctx;
 
     AES_init_ctx(&ctx, key);
-    AES_ECB_encrypt(&ctx, in);
-
-    printf("ECB encrypt: ");
-
-    if (0 == memcmp((char*) out, (char*) in, 16)) {
-        printf("SUCCESS!\n");
-        return(0);
-    } else {
-        printf("FAILURE!\n");
-        return(1);
-    }
+    AES_ECB_encrypt(&ctx, pt);
 }
 
-static int test_decrypt_ecb(void)
+static void decrypt_ecb(uint8_t* key, uint8_t* ct)
 {
-    uint8_t key[] = { 0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c };
-    uint8_t in[]  = { 0x3a, 0xd7, 0x7b, 0xb4, 0x0d, 0x7a, 0x36, 0x60, 0xa8, 0x9e, 0xca, 0xf3, 0x24, 0x66, 0xef, 0x97 };
-    uint8_t out[]   = { 0x6b, 0xc1, 0xbe, 0xe2, 0x2e, 0x40, 0x9f, 0x96, 0xe9, 0x3d, 0x7e, 0x11, 0x73, 0x93, 0x17, 0x2a };
     struct AES_ctx ctx;
-    
+
     AES_init_ctx(&ctx, key);
-    AES_ECB_decrypt(&ctx, in);
-
-    printf("ECB decrypt: ");
-
-    if (0 == memcmp((char*) out, (char*) in, 16)) {
-        printf("SUCCESS!\n");
-        return(0);
-    } else {
-        printf("FAILURE!\n");
-        return(1);
-    }
+    AES_ECB_decrypt(&ctx, ct);
 }
