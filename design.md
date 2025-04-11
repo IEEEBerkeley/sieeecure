@@ -3,20 +3,6 @@
 - **ECB/CBC** \[4\]
 	- considered insecure for actual use
 	- easiest to implement
-- GCM
-	- industry standard
-	- requires dealing with authentication tags (which we probably don't need?)
-	- hardest to implement
-	- i couldn't find any existing implementations in Verilog
-- XTS \[5\]
-	- requires two keys,
-	- typically used for disk encryption
-	- somewhere between ECB/CBC and GCM in terms of difficulty of implementing
-- CTR, OFB, CFB
-	- stream ciphers so probably no need to consider
-
-### C RegFile
-small AES open-source implementation in \[3\] — which one?
 
 ### Salt
 Unoptimized: TRNG \[1\]  
@@ -33,4 +19,6 @@ Considerations:
 2. [Mersenne Twister (PRNG)](https://github.com/alexforencich/verilog-mersenne)  
 3. **[Tiny AES](https://github.com/kokke/tiny-AES-c)** or [General Embedded Cryptography Library (used in paper)](https://github.com/intel/tinycrypt)  
 4. [AES in Verilog](https://medium.com/@imgouravsaini/aes-algorithm-and-its-hardware-implementation-on-fpga-a-step-by-step-guide-2bef178db736) + [Some GitHub Repo](https://github.com/michaelehab/AES-Verilog)  
-5. [AES XTS in Verilog](https://github.com/pradyuman/aes-encryption-engine)  
+5. [AES Verilog Implementation](https://github.com/secworks/aes), uses [FuseSoC](https://github.com/olofk/fusesoc) package manager though.
+6. [Minimal AES Verilog implementation](https://github.com/sumanth-kalluri/128-Bit-AES-Encryption-and-Decryption-in-Verilog)
+7. [Another fairly minimal AES Verilog implementaion](https://github.com/nolancon/AES128)
