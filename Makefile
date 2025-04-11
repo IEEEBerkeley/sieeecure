@@ -10,15 +10,15 @@ LDFLAGS      = -Wall -Os -Wl,-Map,test.map
 all: regfile.elf
 
 
-aes.o : aes.c aes.h
+aes.o : src/aes-c/aes.c src/aes-c/aes.h
 	echo [CC] $@ $(CFLAGS)
 	$(CC) $(CFLAGS) -o $@ $<
 
-regfile.o : regfile.c aes.h aes.o
+regfile.o : regfile.c src/aes-c/aes.h src/aes-c/aes.o
 	echo [CC] $@ $(CFLAGS)
 	$(CC) $(CFLAGS) -o $@ $<
 
-regfile.elf : regfile.o aes.o
+regfile.elf : regfile.o src/aes-c/aes.o
 	echo [LD] $@ $(LDFLAGS)
 	$(LD) $(LDFLAGS) -o $@ $^
 
