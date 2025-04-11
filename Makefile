@@ -14,7 +14,7 @@ aes.o : src/aes-c/aes.c src/aes-c/aes.h
 	echo [CC] $@ $(CFLAGS)
 	$(CC) $(CFLAGS) -o $@ $<
 
-regfile.o : regfile.c src/aes-c/aes.h src/aes-c/aes.o
+regfile.o : src/regfile.c src/aes-c/aes.h src/aes-c/aes.o
 	echo [CC] $@ $(CFLAGS)
 	$(CC) $(CFLAGS) -o $@ $<
 
